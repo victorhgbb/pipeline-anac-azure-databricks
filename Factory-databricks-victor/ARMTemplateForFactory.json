@@ -231,6 +231,172 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipe_lookup')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup_csv",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "ds_generico_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"containerName": "csvfiles",
+									"fileName": "csvCor.csv",
+									"separatorName": ";"
+								}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Lookup_sql",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Lookup_csv",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_generico_fixo_azuresql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaName": "SalesLT",
+									"tableName": "ProductCategory"
+								}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Lookup_query",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Lookup_sql",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT TABLE_SCHEMA, TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE ='BASE TABLE'\nAND TABLE_SCHEMA = 'SalesLT'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_generico_fixo_azuresql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaName": "SalesLT",
+									"tableName": "ProductCategory"
+								}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Lookup_procedure",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Lookup_query",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[proc_lookup_adf]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_generico_fixo_azuresql",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaName": "SalesLT",
+									"tableName": "ProductCategory"
+								}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "adf_02_activities"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_generico_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_generico_fixo_azuresql')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pipeline-anac')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
