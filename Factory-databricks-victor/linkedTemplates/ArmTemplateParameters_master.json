@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Factory-databricks-victor"
+		},
+		"AzureDatabricksconexao_accessToken": {
+			"value": ""
+		},
+		"ls_azuresql_password": {
+			"value": ""
+		},
+		"ls_datalake_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricksconexao_properties_typeProperties_existingClusterId": {
+			"value": "1213-120747-xpod02ys"
+		},
+		"ls_azuresql_properties_typeProperties_server": {
+			"value": "sql-cursoudemy-victor.database.windows.net"
+		},
+		"ls_azuresql_properties_typeProperties_database": {
+			"value": "sql-cursoudemy-victor"
+		},
+		"ls_azuresql_properties_typeProperties_userName": {
+			"value": "victor"
+		},
+		"ls_datalake_properties_typeProperties_url": {
+			"value": "https://datalakeanacvictor.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
