@@ -1211,7 +1211,7 @@
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "listar parquet",
+								"activity": "filtro arquivos",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1220,7 +1220,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('listar parquet').output.childItems",
+								"value": "@activity('filtro arquivos').output.value",
 								"type": "Expression"
 							},
 							"activities": [
@@ -1347,6 +1347,29 @@
 						"linkedServiceName": {
 							"referenceName": "ls_azuresql",
 							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "filtro arquivos",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "listar parquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('listar parquet').output.childItems",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@equals(item().type, 'File')",
+								"type": "Expression"
+							}
 						}
 					}
 				],
@@ -1500,6 +1523,92 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_generico_fixo_azuresql')]",
 				"[concat(variables('factoryId'), '/datasets/ds_generico_parquet')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pratica_04')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "exec_pratica_01",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pratica_01",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "exec_pratica_02",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "exec_pratica_01",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pratica_02",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "exec_pratica_03",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "exec_pratica_02",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pratica_03",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "adf_01_handson01"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pratica_01')]",
+				"[concat(variables('factoryId'), '/pipelines/pratica_02')]",
+				"[concat(variables('factoryId'), '/pipelines/pratica_03')]"
 			]
 		}
 	]
