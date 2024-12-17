@@ -1,0 +1,73 @@
+{
+	"name": "pratica_04",
+	"properties": {
+		"activities": [
+			{
+				"name": "exec_pratica_01",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pratica_01",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "exec_pratica_02",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "exec_pratica_01",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pratica_02",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "exec_pratica_03",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "exec_pratica_02",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pratica_03",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "adf_01_handson01"
+		},
+		"annotations": []
+	}
+}
