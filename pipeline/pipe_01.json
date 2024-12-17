@@ -31,6 +31,8 @@
 		"folder": {
 			"name": "adf_01_pipeline01"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-12-16T18:56:08Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

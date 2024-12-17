@@ -29,6 +29,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -40,6 +41,8 @@
 		"folder": {
 			"name": "adf_02_activities"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-12-16T19:59:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

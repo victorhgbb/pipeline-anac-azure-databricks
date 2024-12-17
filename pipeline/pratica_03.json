@@ -124,6 +124,8 @@
 		"folder": {
 			"name": "adf_01_handson01"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-12-17T12:54:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

@@ -75,6 +75,8 @@
 		"folder": {
 			"name": "adf_02_activities"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-12-16T19:18:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
