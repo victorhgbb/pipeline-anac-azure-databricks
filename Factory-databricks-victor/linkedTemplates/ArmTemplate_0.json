@@ -495,6 +495,45 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_generico_parquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_datalake",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"containerName": {
+						"type": "string"
+					},
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().fileName, '.parquet')",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "@dataset().containerName",
+							"type": "Expression"
+						}
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_datalake')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_json_fixo')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -955,6 +994,176 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_generico_csv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pratica_01')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ler csvs",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_generico_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"containerName": "csvfiles",
+									"fileName": "*",
+									"separatorName": "*"
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "filtrar moviesDB",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "ler csvs",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('ler csvs').output.childItems",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@not(equals(item().name, 'moviesDB.csv'))",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "lista de csvs",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "filtrar moviesDB",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('filtrar moviesDB').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "csv para parquet",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "ParquetSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "ParquetWriteSettings"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_generico_csv",
+											"type": "DatasetReference",
+											"parameters": {
+												"containerName": "csvfiles",
+												"fileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												},
+												"separatorName": ";"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_generico_parquet",
+											"type": "DatasetReference",
+											"parameters": {
+												"containerName": "parquetfiles",
+												"fileName": {
+													"value": "@replace(item().name, '.csv', '')",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "adf_01_handson01"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_generico_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_generico_parquet')]"
 			]
 		}
 	]
