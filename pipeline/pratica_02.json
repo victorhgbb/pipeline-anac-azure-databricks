@@ -41,7 +41,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "listar parquet",
+						"activity": "filtro arquivos",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,7 +50,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('listar parquet').output.childItems",
+						"value": "@activity('filtro arquivos').output.value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -177,6 +177,29 @@
 				"linkedServiceName": {
 					"referenceName": "ls_azuresql",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "filtro arquivos",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "listar parquet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('listar parquet').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item().type, 'File')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
