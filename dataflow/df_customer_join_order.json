@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "df_customer_join_order",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
