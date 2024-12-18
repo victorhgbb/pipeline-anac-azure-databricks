@@ -11,6 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "orders.csv",
+				"folderPath": "v2",
 				"fileSystem": "csvfiles"
 			},
 			"columnDelimiter": ",",
