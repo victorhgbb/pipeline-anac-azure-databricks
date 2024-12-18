@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_generico_csv",
+						"referenceName": "ds_fixo_orders_csv",
 						"type": "DatasetReference"
 					},
 					"name": "PlanOrdersData"
@@ -40,10 +40,20 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> PlanCustomersData",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          order_id as string,",
+				"          customer_id as string,",
+				"          order_status as string,",
+				"          order_date as string,",
+				"          required_date as string,",
+				"          shipped_date as string,",
+				"          store_id as string,",
+				"          staff_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> PlanOrdersData",
-				"PlanCustomersData, PlanOrdersData join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"PlanCustomersData, PlanOrdersData join(PlanCustomersData@customer_id == PlanOrdersData@customer_id,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
