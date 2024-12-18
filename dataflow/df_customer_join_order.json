@@ -85,7 +85,7 @@
 				"     skipDuplicateMapOutputs: true) ~> SelectFromFiles",
 				"SelectFromFiles sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:'ResultadoJoin',",
+				"     filePattern:'ResultadoJoin.csv',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
