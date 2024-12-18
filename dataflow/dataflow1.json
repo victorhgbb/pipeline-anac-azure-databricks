@@ -19,13 +19,21 @@
 					"name": "PlanOrdersData"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_generico_csv",
+						"type": "DatasetReference"
+					},
+					"name": "ResultadoJoin"
+				}
+			],
 			"transformations": [
 				{
 					"name": "JoinCustomerOrders"
 				},
 				{
-					"name": "Select"
+					"name": "SelectFromFiles"
 				}
 			],
 			"scriptLines": [
@@ -74,7 +82,15 @@
 				"          order_status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> Select"
+				"     skipDuplicateMapOutputs: true) ~> SelectFromFiles",
+				"SelectFromFiles sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     filePattern:'ResultadoJoin',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ResultadoJoin"
 			]
 		}
 	}
