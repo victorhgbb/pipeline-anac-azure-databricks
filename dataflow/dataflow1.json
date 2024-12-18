@@ -9,7 +9,7 @@
 						"referenceName": "ds_generico_csv",
 						"type": "DatasetReference"
 					},
-					"name": "PlanCorData"
+					"name": "PlanCustomersData"
 				},
 				{
 					"dataset": {
@@ -24,7 +24,7 @@
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> PlanCorData",
+				"     ignoreNoFilesFound: false) ~> PlanCustomersData",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1"
