@@ -1,5 +1,5 @@
 {
-	"name": "pratica_04",
+	"name": "execute_pipes",
 	"properties": {
 		"activities": [
 			{
@@ -12,7 +12,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pratica_01",
+						"referenceName": "csv_to_parquet_with_filter",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -58,7 +58,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pratica_03",
+						"referenceName": "db_to_parquet",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

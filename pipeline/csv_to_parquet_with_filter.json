@@ -1,5 +1,5 @@
 {
-	"name": "pratica_01",
+	"name": "csv_to_parquet_with_filter",
 	"properties": {
 		"activities": [
 			{
