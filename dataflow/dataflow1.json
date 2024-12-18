@@ -9,7 +9,7 @@
 						"referenceName": "ds_excel_fixo",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "PlanCorData"
 				}
 			],
 			"sinks": [],
@@ -21,7 +21,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1"
+				"     ignoreNoFilesFound: false) ~> PlanCorData"
 			]
 		}
 	}
