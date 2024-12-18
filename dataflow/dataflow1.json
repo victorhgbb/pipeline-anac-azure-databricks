@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "PlanCorData"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_generico_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [],
@@ -21,7 +28,10 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> PlanCorData"
+				"     ignoreNoFilesFound: false) ~> PlanCorData",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1"
 			]
 		}
 	}
