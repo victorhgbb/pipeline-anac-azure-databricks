@@ -1,9 +1,9 @@
 {
-	"name": "pipeline2",
+	"name": "pratica_05",
 	"properties": {
 		"activities": [
 			{
-				"name": "Select files",
+				"name": "Executar data flow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -34,6 +34,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "adf_01_handson01"
+		},
 		"annotations": []
 	}
 }
