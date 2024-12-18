@@ -17,9 +17,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "PlanOrdersData"
-				},
-				{
-					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -67,24 +64,22 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> PlanOrdersData",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
 				"PlanCustomersData, PlanOrdersData join(PlanCustomersData@customer_id == PlanOrdersData@customer_id,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinCustomerOrders",
 				"JoinCustomerOrders select(mapColumn(",
-				"          customer_id = PlanCustomersData@customer_id,",
+				"          {Id cliente} = PlanCustomersData@customer_id,",
 				"          first_name,",
 				"          last_name,",
-				"          phone,",
+				"          Telefone = phone,",
 				"          email,",
-				"          street,",
-				"          city,",
-				"          state,",
-				"          zip_code,",
-				"          order_status",
+				"          Rua = street,",
+				"          Cidade = city,",
+				"          Estado = state,",
+				"          CEP = zip_code,",
+				"          {Status pedido} = order_status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectFromFiles",
