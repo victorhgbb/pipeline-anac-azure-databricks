@@ -50,6 +50,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "adf_01_handson01"
+		},
 		"annotations": [],
 		"lastPublishTime": "2024-12-16T18:39:56Z"
 	},
