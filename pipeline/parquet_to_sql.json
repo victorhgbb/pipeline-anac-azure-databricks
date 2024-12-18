@@ -1,5 +1,5 @@
 {
-	"name": "pratica_02",
+	"name": "parquet_to_sql",
 	"properties": {
 		"activities": [
 			{
@@ -203,9 +203,6 @@
 				}
 			}
 		],
-		"folder": {
-			"name": "adf_01_handson01"
-		},
 		"annotations": [],
 		"lastPublishTime": "2024-12-17T13:40:01Z"
 	},

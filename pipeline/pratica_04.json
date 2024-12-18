@@ -35,7 +35,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pratica_02",
+						"referenceName": "parquet_to_sql",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
