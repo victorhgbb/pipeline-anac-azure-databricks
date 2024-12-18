@@ -17,6 +17,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "PlanOrdersData"
+				},
+				{
+					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -64,6 +67,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> PlanOrdersData",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1",
 				"PlanCustomersData, PlanOrdersData join(PlanCustomersData@customer_id == PlanOrdersData@customer_id,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
@@ -85,7 +90,7 @@
 				"     skipDuplicateMapOutputs: true) ~> SelectFromFiles",
 				"SelectFromFiles sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:'ResultadoJoin.csv',",
+				"     filePattern:(concat('Extracao-', toString(currentDate()), '.csv')),",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
