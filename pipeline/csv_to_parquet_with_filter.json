@@ -38,7 +38,7 @@
 				}
 			},
 			{
-				"name": "filtrar moviesDB",
+				"name": "filtrar moviesDB e Extracao",
 				"type": "Filter",
 				"dependsOn": [
 					{
@@ -65,7 +65,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "filtrar moviesDB",
+						"activity": "filtrar moviesDB e Extracao",
 						"dependencyConditions": [
 							"Succeeded"
 						]
