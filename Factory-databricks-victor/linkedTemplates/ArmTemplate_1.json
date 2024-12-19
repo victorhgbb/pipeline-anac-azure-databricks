@@ -125,7 +125,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Executar data flow",
+						"name": "Data flow1",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -145,9 +145,9 @@
 									"PlanCustomersData": {},
 									"PlanOrdersData": {},
 									"ResultadoJoin": {
-										"containerName": "csvfiles/v2",
-										"fileName": "ResultadoJoin.csv",
-										"separatorName": ";"
+										"containerName": "csvfiles",
+										"fileName": "concat('Extracao-', toString(currentDate()), '.csv')",
+										"separatorName": ","
 									}
 								}
 							},
