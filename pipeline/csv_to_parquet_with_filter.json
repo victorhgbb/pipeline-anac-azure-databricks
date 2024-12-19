@@ -55,7 +55,7 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@and(\n    not(equals(item().name, 'moviesDB.csv')), \n    startswith(item().name, 'Extracao-')\n)",
+						"value": "@and(\n    not(equals(item().name, 'moviesDB.csv')), \n    not(startswith(item().name, 'Extracao-'))\n)",
 						"type": "Expression"
 					}
 				}
@@ -74,7 +74,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('filtrar moviesDB').output.value",
+						"value": "@activity('filtrar moviesDB e Extracao').output.value",
 						"type": "Expression"
 					},
 					"activities": [
