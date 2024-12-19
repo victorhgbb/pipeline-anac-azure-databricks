@@ -706,7 +706,7 @@
 						}
 					},
 					{
-						"name": "filtrar moviesDB",
+						"name": "filtrar moviesDB e Extracao",
 						"type": "Filter",
 						"dependsOn": [
 							{
@@ -723,7 +723,7 @@
 								"type": "Expression"
 							},
 							"condition": {
-								"value": "@not(equals(item().name, 'moviesDB.csv'))",
+								"value": "@and(\n    not(equals(item().name, 'moviesDB.csv')), \n    startswith(item().name, 'Extracao-')\n)",
 								"type": "Expression"
 							}
 						}
@@ -733,7 +733,7 @@
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "filtrar moviesDB",
+								"activity": "filtrar moviesDB e Extracao",
 								"dependencyConditions": [
 									"Succeeded"
 								]
