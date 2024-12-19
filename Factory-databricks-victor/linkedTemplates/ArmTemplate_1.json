@@ -13,118 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/pipe_wait')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "metadados",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ds_generico_csv",
-								"type": "DatasetReference",
-								"parameters": {
-									"containerName": "csvfiles",
-									"fileName": "csvCor.csv",
-									"separatorName": ";"
-								}
-							},
-							"fieldList": [
-								"itemType"
-							],
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "Lookup_csv",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "esperar_10_segundos",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "ds_generico_csv",
-								"type": "DatasetReference",
-								"parameters": {
-									"containerName": "csvfiles",
-									"fileName": "csvCor.csv",
-									"separatorName": ";"
-								}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "esperar_10_segundos",
-						"type": "Wait",
-						"dependsOn": [
-							{
-								"activity": "metadados",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 10
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "adf_02_activities"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-12-17T11:48:21Z"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/df_customer_join_order')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -207,7 +95,13 @@
 						"          Cidade = city,",
 						"          Estado = state,",
 						"          CEP = zip_code,",
-						"          {Status pedido} = order_status",
+						"          {Status pedido} = order_status,",
+						"          {Id pedido} = order_id,",
+						"          {Data pedido} = order_date,",
+						"          required_date,",
+						"          shipped_date,",
+						"          store_id,",
+						"          staff_id",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SelectFromFiles",
@@ -251,7 +145,7 @@
 									"PlanCustomersData": {},
 									"PlanOrdersData": {},
 									"ResultadoJoin": {
-										"containerName": "csvfiles",
+										"containerName": "csvfiles/v2",
 										"fileName": "ResultadoJoin.csv",
 										"separatorName": ";"
 									}

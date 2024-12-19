@@ -381,7 +381,7 @@
 									"PlanCustomersData": {},
 									"PlanOrdersData": {},
 									"ResultadoJoin": {
-										"containerName": "csvfiles",
+										"containerName": "csvfiles/v2",
 										"fileName": "ResultadoJoin.csv",
 										"separatorName": ";"
 									}
@@ -716,49 +716,6 @@
 				"[concat(variables('factoryId'), '/linkedServices/ls_azuresql')]",
 				"[concat(variables('factoryId'), '/datasets/ds_generico_fixo_azuresql')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipe_01')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Wait01",
-						"type": "Wait",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 3
-						}
-					},
-					{
-						"name": "Wait02",
-						"type": "Wait",
-						"dependsOn": [
-							{
-								"activity": "Wait01",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 4
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "adf_01_pipeline01"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-12-16T18:56:08Z"
-			},
-			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipe_copydata')]",
@@ -1890,7 +1847,13 @@
 						"          Cidade = city,",
 						"          Estado = state,",
 						"          CEP = zip_code,",
-						"          {Status pedido} = order_status",
+						"          {Status pedido} = order_status,",
+						"          {Id pedido} = order_id,",
+						"          {Data pedido} = order_date,",
+						"          required_date,",
+						"          shipped_date,",
+						"          store_id,",
+						"          staff_id",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SelectFromFiles",
