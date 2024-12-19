@@ -55,7 +55,7 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@not(equals(item().name, 'moviesDB.csv'))",
+						"value": "@and(\n    not(equals(item().name, 'moviesDB.csv')), \n    startswith(item().name, 'Extracao-')\n)",
 						"type": "Expression"
 					}
 				}
