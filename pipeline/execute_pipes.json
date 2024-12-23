@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "exec_pratica_01",
+				"name": "exec_01",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -19,11 +19,11 @@
 				}
 			},
 			{
-				"name": "exec_pratica_02",
+				"name": "exec_02",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "exec_pratica_01",
+						"activity": "exec_01",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -42,11 +42,11 @@
 				}
 			},
 			{
-				"name": "exec_pratica_03",
+				"name": "exec_03",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "exec_pratica_02",
+						"activity": "exec_02",
 						"dependencyConditions": [
 							"Succeeded"
 						]
