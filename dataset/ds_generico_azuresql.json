@@ -1,5 +1,5 @@
 {
-	"name": "ds_generico_fixo_azuresql",
+	"name": "ds_generico_azuresql",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azuresql",

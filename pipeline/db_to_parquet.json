@@ -22,7 +22,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ds_generico_fixo_azuresql",
+						"referenceName": "ds_generico_azuresql",
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "*",
@@ -89,7 +89,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_generico_fixo_azuresql",
+									"referenceName": "ds_generico_azuresql",
 									"type": "DatasetReference",
 									"parameters": {
 										"schemaName": {
